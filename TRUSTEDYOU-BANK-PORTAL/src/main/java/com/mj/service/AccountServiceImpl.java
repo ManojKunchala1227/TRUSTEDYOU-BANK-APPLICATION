@@ -27,79 +27,99 @@ public class AccountServiceImpl implements IAccountService {
 	@Override
 	public Account_Details formDetails(AccountOpeningForm aof) 
 	{
-		//Create Object
-		 Account_Details ad = new Account_Details();
 		
-		
-		if(aof.getMobileNo() !=ad.getMobileNo())
-		{
-			if(aof !=null)
+	 
+         if(aof !=null )
 			{
-				
+        	 
+        	 
+        	// Generate a random 10-digit account number
+             Long accountNo = (long)(Math.random() * 10000000000L);  // 10 digits
+              // Ensure the number is 10 digits (if necessary)
+             while (accountNo < 1000000000L) 
+             {
+                 accountNo = (long)(Math.random() * 10000000000L); // Regenerate if it's less than 10 digits
+             }
+             
+             Optional<Account_Details> ac= adRepo.findById(accountNo.intValue());
+             
+             if(ac.isPresent())
+             {
+             	throw new IllegalArgumentException(accountNo+" Customer Id is Alredy Exist");
+             }
+             
+            
+             
+             // Generate a 9-digit customer ID and check for uniqueness 
+             Integer custId = (int)(Math.random() * 1000000000);  // 10 digits
+           
+             // Ensure the number is 9 digits (if necessary)
+             while (custId < 100000000) {
+             	custId = (int)(Math.random() * 100000000); // Regenerate if it's less than 10 digits
+             }
+      
+             //Checking the Customer Id is Already Exist or not
+             Optional<Account_Details> cId= adRepo.findById(custId);
+             
+             if(cId.isPresent())
+             {
+             	throw new IllegalArgumentException(custId+" Customer Id is Already Exist");
+             }
+             
+             
+             
+             
+           
 				
 				 // Save the Account Opening Form
 		        AccountOpeningForm accountForm = aofrRepo.save(aof);
 		        
-		        // Generate a random 10-digit account number
-		        Long accountNo = (long)(Math.random() * 10000000000L);  // 10 digits
-		        
-		       
-		        
-		        // Ensure the number is 10 digits (if necessary)
-		        while (accountNo < 1000000000L) {
-		            accountNo = (long)(Math.random() * 10000000000L); // Regenerate if it's less than 10 digits
-		        }
-		        
-		        
-		        // Generate a random 9-digit CUSTOMER ID
-		        Integer custId = (int)(Math.random() * 1000000000);  // 10 digits
-		        
-		        
-		        // Ensure the number is 9 digits (if necessary)
-		        while (custId < 100000000L) {
-		        	custId = (int)(Math.random() * 100000000); // Regenerate if it's less than 10 digits
-		        }
-		        
-		        
+		          
 		        // Create Account_Details object and set the account number
-		       // Account_Details ad = new Account_Details();
-		        ad.setAccountNo(accountNo);//Taking Random 10 digits Numbers 
-		        ad.setBranchName(accountForm.getBranchName());
-		        ad.setTypeOfAccount(accountForm.getTypeOfAccount());
-		        ad.setName(accountForm.getName());
-		        ad.setDateOfBirth(accountForm.getDateOfBirth());
-		     //   ad.setNameOfTheFather(accountForm.getNameOfTheFather());
-		        ad.setMaritalStatus(accountForm.getMaritalStatus());
-		        ad.setAdress(accountForm.getAdress());
-		        ad.setCustomerId(custId);//Taking Random 9 digits Numbers
-		        ad.setNationality(accountForm.getNationality());
-		        ad.setLd(LocalDate.now()); // Account Opening Date 
-		        ad.setModeOfoperation(accountForm.getTypeOfAccount());
-		        ad.setPassBookIssueDate(LocalDate.now().plusDays(4));
-				ad.setMobileNo(accountForm.getMobileNo());
-				ad.setEmailId(accountForm.getEmailID());
-				ad.setPanNo(accountForm.getPanNo());
-				//ad.setNomineeName(null);
-				
-				 // Save the Account Details
-				 Account_Details acountDet = adRepo.save(ad);
-				 return acountDet;
+			       Account_Details ad = new Account_Details();
+		          
+				       //set the Opening form Details in Account
+				        ad.setAccountNo(accountNo);//Taking Random 10 digits Numbers 
+				        ad.setBranchName(accountForm.getBranchName());
+				        ad.setTypeOfAccount(accountForm.getTypeOfAccount());
+				        ad.setName(accountForm.getName());
+				        ad.setDateOfBirth(accountForm.getDateOfBirth());
+				        ad.setMaritalStatus(accountForm.getMaritalStatus());
+				        ad.setAdress(accountForm.getAdress());
+				        ad.setCustomerId(custId);//Taking Random 9 digits Numbers
+				       
+				        ad.setNameOfTheFather(accountForm.getNameOfTheFather());
+				        
+				        ad.setNationality(accountForm.getNationality());
+				        ad.setLd(LocalDate.now()); // Account Opening Date 
+				        ad.setModeOfoperation(accountForm.getTypeOfAccount());
+				        ad.setPassBookIssueDate(LocalDate.now().plusDays(4));
+						ad.setMobileNo(accountForm.getMobileNo());
+						ad.setEmailId(accountForm.getEmailID());
+						ad.setPanNo(accountForm.getPanNo());
+						//ad.setNomineeName(null);
+						
+						 // Save the Account Details
+						 Account_Details acountDet = adRepo.save(ad);
+						
+						 return acountDet;
+		         
 			}
-			
-			
-			
-		}
-		return ad;
+		 
 		
+		return null;
 		
 		
 	}
+	
 	
 // ===============Check Account =============================
 
 	
 	  @Override public Account_Details check_Account(Integer cId ) 
 	  {
+		  
+		  
 		  
 	  //find the Id
 	  Optional<Account_Details> idC=adRepo.findById(cId);

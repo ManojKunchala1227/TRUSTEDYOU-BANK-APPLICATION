@@ -50,6 +50,11 @@ public class Account_Details
 	@NonNull
 	private String maritalStatus;
 	
+	@Column(name="FATHER_NAME")
+	@NonNull
+	private String NameOfTheFather;
+	
+	
 	@Column(name="OCCUPATION")
 	@NonNull
 	private String occupation="OTHERS";
