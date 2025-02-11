@@ -45,10 +45,6 @@ public class Account_Details
 	@NonNull
 	private String dateOfBirth;
 	
-//	@Column(name="FATHER_NAME")
-//	@NonNull
-//	private String NameOfTheFather;
-//	
 	
 	@Column(name="MARITAL_STATUS")
 	@NonNull
