@@ -14,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 
 @Entity
 @Data
-@Table(name="ACCOUNT_OPENING_FORM ")
+@Table(name="TRUSTEDYOU_BANK_OPENING_FORM ")
 @NoArgsConstructor
 @AllArgsConstructor
 @RequiredArgsConstructor
